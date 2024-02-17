@@ -10,18 +10,12 @@ and is developed on python on the **BACKEND**
 it takes person details as the parameters
 **i.e:** *insert_person([first_name],[second_name],[data_of_brith],[GENDER],[clan_name],[tribe_name]);*
 
-### -   LOCATION AND DISTRICT PROCEDURES
+### -   LOCATION PROCEDURES
 - location
 **get_location_id** this return the location id if the location exist it takes two inputs *location name  and district name*
 **i.e:** *get_location_id([location name],[district name])*
 
 **locations** this return all location of a given district takes district name as the parameter
-**i.e** *location([district name])*
-
-**insert_district** this return the district id and takes the district name as the prameter
-**i.e:** *insert_district([district name])*
-
-**districts** this return all district it takes not prameter
 **i.e** *location([district name])*
 
 ### -   PARENTS PROCEDURES
