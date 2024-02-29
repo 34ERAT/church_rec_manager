@@ -1,4 +1,6 @@
 
+select "tables creation ";
+
 drop database if exists church_db;
 
 create database church_db;
@@ -10,8 +12,8 @@ CREATE TABLE `PERSONS` (
   `FIRST_NAME` varchar(50),
   `LAST_NAME` varchar(50),
   `DATE_OF_BIRTH` date,
-  `TYPE` enum('P','N'),
-  `GENDER` enum('MALE','FEMALE'),
+  `TYPE` enum('P','N') not null,
+  `GENDER` enum('MALE','FEMALE') not null,
   `CLAN_ID` varchar(255)
 );
 
