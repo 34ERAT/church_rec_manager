@@ -10,18 +10,20 @@ class connect:
            password=os.getenv('DB_PASSWORD'),
            database=os.getenv('DB')
            )
-   def submit_get(self,query):
-      CURSOR=self.__CONNECTION.cursor()
-      CURSOR.execute(query)
-      return CURSOR.fetchall()
+   def get(self,query,params):
+      CURSOR=self.__CONNECTION.cursor(prepared=True)
+      CURSOR.execute(query,params)
+      data = CURSOR.fetchall()
+      CURSOR.close()
+      return data
 
-   def submit_add(self,query):
-      CURSOR=self.__CONNECTION.cursor()
-      CURSOR.execute(query)
-      self.__CONNECTION.commit();
-      return CURSOR.fetchall();
+   def submit(self,query,params):
+      CURSOR=self.__CONNECTION.cursor(prepared=True)
+      CURSOR.execute(query,params)
+      self.__CONNECTION.commit()
+      result = CURSOR.fetchall()
+      CURSOR.close()
+      return result
 
 result = connect()
-
-print(result.submit_get("show tables;"))
 
