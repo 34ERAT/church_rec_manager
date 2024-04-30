@@ -11,11 +11,11 @@ class connect:
            database=os.getenv('DB')
            )
    def get(self,query,params):
-      CURSOR=self.__CONNECTION.cursor(prepared=True)
-      CURSOR.execute(query,params)
-      data = CURSOR.fetchall()
-      CURSOR.close()
-      return data
+       CURSOR=self.__CONNECTION.cursor(prepared=True)
+       CURSOR.execute(query,params)
+       data = CURSOR.fetchall()
+       CURSOR.close()
+       return data
 
    def submit(self,query,params):
       CURSOR=self.__CONNECTION.cursor(prepared=True)
