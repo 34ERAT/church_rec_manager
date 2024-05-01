@@ -13,6 +13,7 @@ class connect:
    def get(self,query,params):
        CURSOR=self.__CONNECTION.cursor(prepared=True)
        CURSOR.execute(query,params)
+       print(CURSOR.description)
        data = CURSOR.fetchall()
        CURSOR.close()
        return data

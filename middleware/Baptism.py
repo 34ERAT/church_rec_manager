@@ -1,37 +1,23 @@
 from  dbconnection import result
 from jsonschema import validate
+from schemas.global_schemas import SCHEMA_PRSN
 import json
 
 class BAPTISM:
-    st=""
-    __SCHEMA_PRSN={
-            "type":["object","null"],
-            "properties":{
-                "FIRST_NAME":{"type":"string"},
-                "LAST_NAME":{"type":"string"},
-                "DATE_OF_BIRTH":{
-                    "type":"string",
-                    "format":"date"
-                    },
-                "GENDER":{"type":"string"},
-                "CLAN_ID":{"type":"string"},
-                },
-            "required":["FIRST_NAME","LAST_NAME","DATE_OF_BIRTH","GENDER","CLAN_ID"]
-            }
 
     __SCHEMA_BAPT={
             "type":"object",
             "properties":{
                 "baptism_no":{"type":"number"},
-                "godchild":__SCHEMA_PRSN,
-                "mother":__SCHEMA_PRSN,
-                "father":__SCHEMA_PRSN,
+                "godchild":SCHEMA_PRSN,
+                "mother":SCHEMA_PRSN,
+                "father":SCHEMA_PRSN,
                 "baptism_at":{"type":["string","null"]},
                 "god_parent":{
                     "type":["object","null"],
                     "properties":{
-                        "god_father":__SCHEMA_PRSN,
-                        "god_mother":__SCHEMA_PRSN,
+                        "god_father":SCHEMA_PRSN,
+                        "god_mother":SCHEMA_PRSN,
                         "s_o_father":{"type":["string","null"]},
                         "s_o_mother":{"type":["string","null"]}
                         },
