@@ -36,7 +36,7 @@ class BAPTISM:
         print("you have got record", baptism_no)
 
     def delete(self):
-        print("marriage was deleted")
+        print("baptism was deleted")
 
 
 bptsm = BAPTISM()
