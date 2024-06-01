@@ -1,7 +1,5 @@
 from dbconnection import result
 from jsonschema import validate
-from schemas.global_schemas import SCHEMA_PRSN
-import json
 
 
 class BAPTISM:
@@ -22,34 +20,62 @@ class BAPTISM:
         "required": ["baptism_no", "godchild", "mother", "father", "baptism_at", "god_mother", "god_father", "s_o_mother", "s_o_father"]
     }
 
-    def new_baptism(self, data):
+    def new_baptism(self, data):  # add   new baptism record to databases
         try:
             validate(instance=data, schema=self.__SCHEMA_BAPT)
-            print("validation was a success")
+            query="""insert  into BAPTISM   ( BAPTISM_NO,godchild,MOTHER_NAMES,FATHER_NAMES,BAPTISM_AT,G_MOTHER,G_FATHER,s_o_g_mother,s_o_g_father)
+            VALUES(
+            %(baptism_no)s, %(godchild)s, %(mother)s,
+            %(father)s, %(baptism_at)s,%(god_mother)s,
+            %(god_father)s, %(s_o_mother)s, %(s_o_father)s
+            )"""
+            result.submit(query=query,params=data)
+            print("success")
+        except Exception as e:
+            print(e)
+            return e
+
+    def edit_baptism(self, data):  # edit baptism 
+        try:
+            validate(instance=data, schema=self.__SCHEMA_BAPT)
+            query = """update  BAPTISM set  
+            godchild =  %(godchild)s,
+            MOTHER_NAMES = %(mother)s ,
+            FATHER_NAMES = %(father)s,
+            BAPTISM_AT =  %(baptism_at)s,
+            G_MOTHER = %(god_mother)s,
+            G_FATHER = %(god_father)s,
+            s_o_g_mother = %(s_o_mother)s,
+            s_o_g_father = %(s_o_father)s where BAPTISM_NO = %(baptism_no)s """
+            result.submit(query=query, params=data)
         except Exception as e:
             return e
 
     def baptisms(self):
-        print("i got all the baptism record ")
+        return result.get("select * from BAPTISM  ",None)
 
-    def baptism(self, baptism_no):
-        print("you have got record", baptism_no)
+    def baptism(self, BPT_NO):
+        return result.get("select * from BAPTISM  WHERE BAPTISM_NO  = %s ",(BPT_NO,))
 
-    def delete(self):
-        print("baptism was deleted")
+    def delete(self,BPT_NO):
+        return result.submit("delete from BAPTISM  WHERE BAPTISM_NO  = %s ",(BPT_NO,))
 
 
 bptsm = BAPTISM()
-# data = {
-#     "baptism_no": 234,
-#     "godchild": "jk23423432",
-#     "mother": "salm",
-#     "father": "japmih",
-#     "baptism_at": "janai",
-#     "god_father": "alimp",
-#     "god_mother": "validate",
-#     "s_o_father": "sfa",
-#     "s_o_mother":"kanli"
-# }
-# print(bptsm.new_baptism(data));
+# for x in range(4,10):
+#     data = {
+#         "baptism_no": x,
+#         "godchild": "5edb6036-1c27-11ef-a8d4-94b86de0e66a",
+#         "mother": "va234234lued",
+#         "father": "moskkjljljlkt",
+#         "baptism_at": None,
+#         "god_father": "alimp",
+#         "god_mother": "validate",
+#         "s_o_father": "sfa",
+#         "s_o_mother": "kanli"
+#     }
+#     bptsm.edit_baptism(data)
+#
+#
 # print(bptsm.baptisms())
+#

@@ -11,42 +11,68 @@ class CONFIRMATION:
         "type": "object",
         "properties": {
             "CONFIMATION_NO":{type:"number"},
-            "DATE_":{type:"string"},
-            "BAPTISM_ON:":{type:"number"},
-            "NO_MEN_BAPT":{type:"string"},
+            "DATE_":{type:"string", format:"date"},
+            "BAPTISM_ON":{type:"number"},
+            "NO_MEN_BAPT":{type:"number"},
             "G_mother":{type:"string"},
             "G_FATHER":{type:"string"},
             'PRIEST':{type:"string"},
             "BAPTUM_DIE":{type:"string"},
-            "AT":{type:"string"},
+            "AT":{type:[ "string", "null" ]},
             },
-        "required": ["CONFIMATION_NO","DATE_","BAPTISM_ON:","NO_MEN_BAPT","G_mother","G_FATHER",'PRIEST',"BAPTUM_DIE", "AT"]
+        "required": ["CONFIMATION_NO","DATE_","BAPTISM_ON","NO_MEN_BAPT","G_mother","G_FATHER",'PRIEST',"BAPTUM_DIE", "AT"]
     }
 
     def new_Confirmation(self, data):
         try:
             validate(instance=data, schema=self.__SCHEMA_confirm)
-            print("validation was a success")
+            query="""insert into CONFIRMATION (CONFIMATION_NO,DATE_,BAPTISM_ON,NO_MEN_BAPT,G_mother,G_FATHER,PRIEST,BAPTUM_DIE,`AT`)
+            values(%(CONFIMATION_NO)s,%(DATE_)s,%(BAPTISM_ON)s,%(NO_MEN_BAPT)s,%(G_mother)s,%(G_FATHER)s,%(PRIEST)s,%(BAPTUM_DIE)s, %(AT)s)"""
+            result.submit(query=query,params=data)
+        except Exception as e:
+            return e
+
+    def edit_Confirmation(self, data):
+        try:
+            validate(instance=data, schema=self.__SCHEMA_confirm)
+            query="""update CONFIRMATION  set  
+            DATE_= %(DATE_)s,
+            BAPTISM_ON= %(BAPTISM_ON)s,
+            NO_MEN_BAPT= %(NO_MEN_BAPT)s,
+            G_mother= %(G_mother)s,
+            G_FATHER=%(G_FATHER)s ,
+            PRIEST=%(PRIEST)s ,
+            BAPTUM_DIE= %(BAPTUM_DIE)s,
+            `AT` = %(AT)s where  CONFIMATION_NO= %(CONFIMATION_NO)s"""
+            result.submit(query=query,params=data)
         except Exception as e:
             return e
 
     def confrimations(self):
-        print("i got all the baptism record ")
+        return result.get("select * from CONFIRMATION  ",None)
 
-    def confirmation(self,baptism_no):
-        print("you have got record",baptism_no)
+    def confirmation(self,Conf_no):
+        return result.get("select * from CONFIRMATION where CONFIMATION_NO = %s;", (Conf_no,))
+
+    def delete(self,Conf_no):
+        return result.submit("delete from CONFIRMATION   where CONFIMATION_NO = %s;", (Conf_no,))
 
 confirmation = CONFIRMATION()
-# data = {
-#     "CONFIMATION_NO": 2342,
-#     "DATE_": 'datetime',
-#     "BAPTISM_ON:": 2342,
-#     "NO_MEN_BAPT":"valuan" ,
-#     "G_mother": 'vakaen' ,
-#     "G_FATHER": "mostajkk",
-#     'PRIEST':'akili' ,
-#     "BAPTUM_DIE":'stamli' ,
-#     "AT":"jlk" ,
-# }
-# print(confirmation.new_Confirmation(data))
-# print(confirmation.confrimations())
+# for x in range(4,10):
+#     data = {
+#         "CONFIMATION_NO": x,
+#         "DATE_": '2003-04-20',
+#         "BAPTISM_ON": 7,
+#         "NO_MEN_BAPT": 4000,
+#         "G_mother": 'vakaen',
+#         "G_FATHER": "mostajkk",
+#         'PRIEST': 'mostalai',
+#         "BAPTUM_DIE": 'jarival',
+#         "AT": "jlk",
+#     }
+#     print(confirmation.confirmation(x))
+#     confirmation.delete(x)
+#     confirmation.edit_Confirmation(data)
+#     confirmation.new_Confirmation(data);
+#
+# print(confirmation.confrimations());

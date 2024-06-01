@@ -16,14 +16,17 @@ class  Clan:
         # validation schema for the data
         try:
             validate(instance=data, schema=self.__SCHEMA)
-            return DB_SUBMIT.submit("", (data))
+            query="insert into clan (CID,TRIBE_ID,CLAN_NAME) values(uuid(),%(TRIBE_ID)s,%(clan)s) "
+            return DB_SUBMIT.submit(query=query, params=data)
         except Exception as e:
             return e
 
-    def edit(self, data):
+    def edit(self, data,cid):
         try:
             validate(instance=data, schema=self.__SCHEMA)
-            return DB_SUBMIT.submit("", (data["TRIBE_ID"], data["clan"]))
+            data["cid"] = cid
+            query="update clan set TRIBE_ID = %(TRIBE_ID)s,CLAN_NAME = %(clan)s where CID = %(cid)s"
+            return DB_SUBMIT.submit(query, data)
         except Exception as e:
             return e
 
