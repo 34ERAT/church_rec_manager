@@ -54,11 +54,11 @@ class BAPTISM:
         return result.get("select * from BAPTISM  WHERE BAPTISM_NO  = %s ",(BPT_NO,))
 
     def get(self,g_child,Parent ):
+        query ="select * from BAPTISM b  where godchild = %s and( b.MOTHER_NAMES = %s or b.FATHER_NAMES = %s );"
         if  Parent is not None:
-            # return result.get("select * from BAPTISM  WHERE godchild= %s and ( MOTHER_NAMES or FATHER_NAMES = %s )",(g_child,Parent))
-            return result.get("select * from BAPTISM   where BAPTISM_NO = %s and (MOTHER_NAMES=%s or FATHER_NAMES= %s) ",(g_child,Parent,Parent))
-        else:
-            return result.get("select * from BAPTISM  WHERE godchild= %s and FATHER_NAMES = %s",(g_child))
+            # return result.get(query=query,params=None)
+            return result.get(query=query,params=(g_child,Parent,Parent))
+        #     return result.get("select * from BAPTISM  WHERE godchild= %s and MOTHER_NAMES= %s",(g_child,Parent))
 
     def delete(self,BPT_NO):
         return result.submit("delete from BAPTISM  WHERE BAPTISM_NO  = %s ",(BPT_NO,))
@@ -72,5 +72,5 @@ bptsm = BAPTISM()
 #             "father": "wiliam tano",
 #             "file_url":"/huble/data"
 #     })
-print(bptsm.get_all())
+# print(bptsm.get_all())
 print(bptsm.get(g_child="sudan",Parent="wiliam tano"))
