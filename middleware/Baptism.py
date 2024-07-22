@@ -53,22 +53,24 @@ class BAPTISM:
     def get_by_no(self, BPT_NO):
         return result.get("select * from BAPTISM  WHERE BAPTISM_NO  = %s ",(BPT_NO,))
 
-    def get(self,g_child,f_name,m_name ):
-        if  m_name is not None:
-            return result.get("select * from BAPTISM  WHERE godchild= %s and MOTHER_NAMES = %s ",(g_child,m_name))
+    def get(self,g_child,Parent ):
+        if  Parent is not None:
+            # return result.get("select * from BAPTISM  WHERE godchild= %s and ( MOTHER_NAMES or FATHER_NAMES = %s )",(g_child,Parent))
+            return result.get("select * from BAPTISM   where BAPTISM_NO = %s and (MOTHER_NAMES=%s or FATHER_NAMES= %s) ",(g_child,Parent,Parent))
         else:
-            return result.get("select * from BAPTISM  WHERE godchild= %s and FATHER_NAMES = %s",(g_child,f_name))
+            return result.get("select * from BAPTISM  WHERE godchild= %s and FATHER_NAMES = %s",(g_child))
 
     def delete(self,BPT_NO):
         return result.submit("delete from BAPTISM  WHERE BAPTISM_NO  = %s ",(BPT_NO,))
 
 
 bptsm = BAPTISM()
-# bptsm.edit_baptism({
+# bptsm.Add({
 #             "baptism_no":1,
 #             "godchild":"sudan",
-#             "mother": "vila no",
+#             "mother": "vima no",
 #             "father": "wiliam tano",
 #             "file_url":"/huble/data"
 #     })
-# print(bptsm.baptism(g_child="sudan", f_name=None,m_name="vila no"))
+print(bptsm.get_all())
+print(bptsm.get(g_child="sudan",Parent="wiliam tano"))
