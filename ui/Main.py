@@ -4,6 +4,7 @@ from Preview import Preview
 from BaptismTable import BaptismTable
 from DeathTable import DeathTable 
 from MarriageTable import  MarriageTable
+from RecordManagers.Baptism_ import Edit_rec
 ctk.set_appearance_mode("Dark") 
 ctk.set_default_color_theme("blue")
 
@@ -29,11 +30,14 @@ class App(ctk.CTk):
         self.recordlist = BaptismTable(self.leftFrame,width=700,height=590)
         self.recordlist.grid(row=1, column=0, padx=10, pady=(10,10), sticky="nsew",columnspan=2)
 
-        self.preview= Preview(self,title="Preview window",width=600,height=00) 
+        self.preview= Preview(self,width=600,height=00) 
         self.preview.grid(row=0, column=1, padx=(10,10), pady=(10,10), sticky="nsew",columnspan=2,rowspan=2)
+        self.preview.set_image('/home/huble/new.jpg')
+        self.preview.set_editor(Edit_rec)
 
     def window_selected(self,choice):
         if choice == "BAPTISIM":
+            self.recordlist.destroy()
             self.recordlist = BaptismTable(self.leftFrame,width=700,height=590)
             self.recordlist.grid(row=1, column=0, padx=10, pady=(10,10), sticky="nsew",columnspan=2)
         elif choice == "MARRIAGE":

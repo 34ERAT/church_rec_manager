@@ -1,4 +1,6 @@
 import customtkinter as ctk
+
+from RecordManagers.Baptism_ import Add_rec
 class Naviagation(ctk.CTkFrame):
     def __init__(self,master,width,height,command):
         super().__init__(master,width=width,height=height)
@@ -12,11 +14,20 @@ class Naviagation(ctk.CTkFrame):
         self.option_menu.set(options[2]) 
 
         # Add new record button
-        self.Add_record_btn = ctk.CTkButton(master=self,text="Add Record",command=self.New_record)
-        self.Add_record_btn.grid(row=0, column=1, padx=10, pady=(10, 10), sticky="ew")
+        self.Add_record_btn = ctk.CTkSegmentedButton(
+            master=self,
+            values=[
+                "Add Record",
+                "Edit Record"
+            ], 
+            border_width=0, 
+            unselected_hover_color="#0c0b14",
+            command=self.New_record)
+        self.Add_record_btn.grid(
+            row=0, column=1, padx=10, pady=(10, 10), sticky="ew")
 
 
-    def New_record(self):
-        print("ready_for the new record")
+    def New_record(self,values):
+        print(f"ready_for the new record{values}")
 
 

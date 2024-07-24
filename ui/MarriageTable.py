@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from CTkTable import *
+from components.Table import Table
 class search(ctk.CTkFrame):
     def __init__(self,master):
         super().__init__(master)
@@ -27,8 +28,14 @@ class MarriageTable(ctk.CTkFrame):
             [1, 2, 3, 4 ],
             [1, 2, 3, 4 ]
             ]
-        self.table =CTkTable(master=self, row=5, column=4, values=self.value)
+        self.table = Table(
+            master=self,
+            heading=["id","husband","wife"],
+            columns=3,
+            command=self.on_click)
         self.table.grid(row=1, column=0, padx=(10,10), pady=(10,10), sticky="ew")
+        self.table.Add_rows(self.value)
 
-    # def get_data(self,event):
-    #     print("not in the some of the ",self.search_input.get())
+    def on_click(self,value):
+        print("not in the some of the ",value["row"])
+        self.table.select_clicked_row(value["row"])

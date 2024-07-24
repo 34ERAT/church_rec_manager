@@ -38,6 +38,7 @@ class BAPTISM:
         try:
             validate(instance=data, schema=self.__SCHEMA_BAPT)
             query = """update  BAPTISM set  
+            BAPTISM_NO = %(baptism_no)s 
             godchild =  %(godchild)s,
             MOTHER_NAMES = %(mother)s ,
             FATHER_NAMES = %(father)s 
