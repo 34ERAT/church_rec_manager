@@ -46,8 +46,8 @@ class BAPTISM:
         except Exception as e:
             return e
 
-    def get_all(self):
-        return self.result.get("select * from BAPTISM  ", None)
+    def get_all(self,Limit=(0,10)):
+        return self.result.get("select BAPTISM_NO ,godchild,MOTHER_NAMES,FATHER_NAMES from BAPTISM limit %s ,%s",Limit )
 
     def get_by_no(self, BPT_NO):
         return self.result.get("select * from BAPTISM  WHERE BAPTISM_NO  = %s ", (BPT_NO,))
