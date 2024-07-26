@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from components.Table import Table
+from ui.components.Table import Table
 from tkinter import filedialog
 
 

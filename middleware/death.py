@@ -1,17 +1,18 @@
 from jsonschema import validate
-from dbconnection import result
-import json
+from middleware.dbconnection import Connect
+# from dbconnection import result
 
 class Death:
-
-    _DEATH = {
-        "type": "object",
-        "properties": {
-            "Names": {"type": "string"},
-            "file_url":{"type": "string"}
-        },
-        "required": ["Names","file_url"]
-    }
+    def __init__(self):
+        self.result = Connect()
+        self._DEATH = {
+            "type": "object",
+            "properties": {
+                "Names": {"type": "string"},
+                "file_url": {"type": "string"}
+            },
+            "required": ["Names", "file_url"]
+        }
 
     def Add(self,data):
         try:
@@ -23,7 +24,7 @@ class Death:
             now(),
             %(file_url)s
             )"""
-            result.submit(query=query,params=data)
+            self.result.submit(query=query,params=data)
         except Exception as e:
             return e
 
@@ -38,25 +39,17 @@ class Death:
             file_url=%(file_url)s 
             where death_id=%(death_id)s
             """
-            result.submit(query=query,params=data)
+            self.result.submit(query=query,params=data)
         except Exception as e:
             print(e)
             return e
 
     def get_all(self):
-       return result.get("select * from DEATH d ;",None)
+       return self.result.get("select * from DEATH d ;",None)
 
     def get(self, Names):
-       return result.get("select * from DEATH  where  death_id= %s ;",(Names,))
+       return self.result.get("select * from DEATH  where  death_id= %s ;",(Names,))
 
     def delete(self,death_id):
-       return result.submit("delete from DEATH  where  death_id= %s ;",(death_id,))
+       return self.result.submit("delete from DEATH  where  death_id= %s ;",(death_id,))
 
-death = Death()
-
-death.update({
-    "death_id":'c9098f59-42b1-11ef-b796-94b86de0e66a',
-    "Names": "valid jabali ",
-    "file_url":"/boot/System.map-6.9.7-amd64/"
-    })
-print(death.get_all())

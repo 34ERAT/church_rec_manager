@@ -1,34 +1,32 @@
-from datetime import date
-from dbconnection import result
+from middleware.dbconnection import Connect
 from jsonschema import validate
-from schemas.global_schemas import SCHEMA_PRSN
-import json
 
 
 class CONFIRMATION:
-
-    __SCHEMA_confirm = {
-        "type": "object",
-        "properties": {
-            "CONFIMATION_NO":{type:"number"},
-            "DATE_":{type:"string", format:"date"},
-            "BAPTISM_ON":{type:"number"},
-            "NO_MEN_BAPT":{type:"number"},
-            "G_mother":{type:"string"},
-            "G_FATHER":{type:"string"},
-            'PRIEST':{type:"string"},
-            "BAPTUM_DIE":{type:"string"},
-            "AT":{type:[ "string", "null" ]},
+    def __init__(self):
+        self.result = Connect()
+        self.__SCHEMA_confirm = {
+            "type": "object",
+            "properties": {
+                "CONFIMATION_NO": {type: "number"},
+                "DATE_": {type: "string", format: "date"},
+                "BAPTISM_ON": {type: "number"},
+                "NO_MEN_BAPT": {type: "number"},
+                "G_mother": {type: "string"},
+                "G_FATHER": {type: "string"},
+                'PRIEST': {type: "string"},
+                "BAPTUM_DIE": {type: "string"},
+                "AT": {type: ["string", "null"]},
             },
-        "required": ["CONFIMATION_NO","DATE_","BAPTISM_ON","NO_MEN_BAPT","G_mother","G_FATHER",'PRIEST',"BAPTUM_DIE", "AT"]
-    }
+            "required": ["CONFIMATION_NO", "DATE_", "BAPTISM_ON", "NO_MEN_BAPT", "G_mother", "G_FATHER", 'PRIEST', "BAPTUM_DIE", "AT"]
+        }
 
     def new_Confirmation(self, data):
         try:
             validate(instance=data, schema=self.__SCHEMA_confirm)
             query="""insert into CONFIRMATION (CONFIMATION_NO,DATE_,BAPTISM_ON,NO_MEN_BAPT,G_mother,G_FATHER,PRIEST,BAPTUM_DIE,`AT`)
             values(%(CONFIMATION_NO)s,%(DATE_)s,%(BAPTISM_ON)s,%(NO_MEN_BAPT)s,%(G_mother)s,%(G_FATHER)s,%(PRIEST)s,%(BAPTUM_DIE)s, %(AT)s)"""
-            result.submit(query=query,params=data)
+            self.result.submit(query=query,params=data)
         except Exception as e:
             return e
 
@@ -44,20 +42,20 @@ class CONFIRMATION:
             PRIEST=%(PRIEST)s ,
             BAPTUM_DIE= %(BAPTUM_DIE)s,
             `AT` = %(AT)s where  CONFIMATION_NO= %(CONFIMATION_NO)s"""
-            result.submit(query=query,params=data)
+            self.result.submit(query=query,params=data)
         except Exception as e:
             return e
 
     def confrimations(self):
-        return result.get("select * from CONFIRMATION  ",None)
+        return self.result.get("select * from CONFIRMATION  ",None)
 
     def confirmation(self,Conf_no):
-        return result.get("select * from CONFIRMATION where CONFIMATION_NO = %s;", (Conf_no,))
+        return self.result.get("select * from CONFIRMATION where CONFIMATION_NO = %s;", (Conf_no,))
 
     def delete(self,Conf_no):
-        return result.submit("delete from CONFIRMATION   where CONFIMATION_NO = %s;", (Conf_no,))
+        return self.result.submit("delete from CONFIRMATION   where CONFIMATION_NO = %s;", (Conf_no,))
 
-confirmation = CONFIRMATION()
+# confirmation = CONFIRMATION()
 # for x in range(4,10):
 #     data = {
 #         "CONFIMATION_NO": x,

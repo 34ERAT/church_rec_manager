@@ -1,20 +1,16 @@
 import customtkinter as ctk
-
-from RecordManagers.Baptism_ import Add_rec
 class Naviagation(ctk.CTkFrame):
-    def __init__(self,master,width,height,command):
+    def __init__(self,master,width,height,OPtions_callback,Mode_callback):
         super().__init__(master,width=width,height=height)
         # self.grid_propagate(False)
         self.grid_columnconfigure((0,1), weight=0)
-        #dropdown menu
-        self.command = command
         options = ["DEATH","MARRIAGE","BAPTISIM"]
-        self.option_menu = ctk.CTkOptionMenu(master=self,values=options,command=self.command)
+        self.option_menu = ctk.CTkOptionMenu(master=self,values=options,command=OPtions_callback)
         self.option_menu.grid(row=0, column=0, padx=10,pady=(10, 10), sticky="ew" )
         self.option_menu.set(options[2]) 
 
         # Add new record button
-        self.Add_record_btn = ctk.CTkSegmentedButton(
+        self.mode_btn = ctk.CTkSegmentedButton(
             master=self,
             values=[
                 "Add Record",
@@ -22,12 +18,15 @@ class Naviagation(ctk.CTkFrame):
             ], 
             border_width=0, 
             unselected_hover_color="#0c0b14",
-            command=self.New_record)
-        self.Add_record_btn.grid(
+            command=Mode_callback
+        )
+        self.mode_btn.grid(
             row=0, column=1, padx=10, pady=(10, 10), sticky="ew")
+        self.mode_btn.set("Edit Record")
 
-
-    def New_record(self,values):
-        print(f"ready_for the new record{values}")
+    def selected_option(self):
+        return self.option_menu.get()
+    def get_Mode(self):
+        return self.mode_btn.get()
 
 
