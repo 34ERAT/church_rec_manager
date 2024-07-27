@@ -1,48 +1,67 @@
-from tkinter import *
-import customtkinter
+import tkinter as tk
+import customtkinter as ctk
 
-# Set the theme and color options
-customtkinter.set_appearance_mode("dark")  # Modes: system (default), light, dark
-customtkinter.set_default_color_theme("dark-blue")  # Themes: blue (default), dark-blue, green
+class FrameA(ctk.CTkFrame):
+    def __init__(self, parent, shared_var):
+        super().__init__(parent)
+        self.shared_var = shared_var
+        self.shared_var.trace("w", self.update_entry)
 
-#root = Tk()
-root = customtkinter.CTk()
+        # Entry widget to display and modify the shared variable
+        self.entry = ctk.CTkEntry(self, textvariable=self.shared_var)
+        self.entry.pack(pady=10)
 
-root.title('Tkinter.com - Custom Tkinter Entry Fields')
-# root.iconbitmap('images/codemy.ico')
-root.geometry('600x350')
+        # Button to change the shared variable
+        self.update_button = ctk.CTkButton(self, text="Update in Frame A", command=self.update_var)
+        self.update_button.pack(pady=10)
 
-def submit():
-	my_label.configure(text=f'Hello {my_entry.get()}')
-	my_entry.configure(state="disabled")
+    def update_entry(self, *args):
+        # This method will be called whenever the shared_var is updated
+        print("Frame A detected change:", self.shared_var.get())
 
-def clear():
-	my_entry.configure(state="normal")
-	my_entry.delete(0, END)
+    def update_var(self):
+        # Update the shared variable
+        self.shared_var.set("Updated by Frame A")
 
-my_label = customtkinter.CTkLabel(root, text="", font=("Helvetica", 24))
-my_label.pack(pady=40)
+class FrameB(ctk.CTkFrame):
+    def __init__(self, parent, shared_var):
+        super().__init__(parent)
+        self.shared_var = shared_var
+        self.shared_var.trace("w", self.update_entry)
 
-my_entry = customtkinter.CTkEntry(root, 
-	placeholder_text="Enter Your Name",
-	height=50,
-	width=200,
-	font=("Helvetica", 18),
-	corner_radius=50,
-	text_color="green",
-	placeholder_text_color="darkblue",
-	fg_color=("blue","lightblue"),  # outer, inner
-	state="normal",
-)
-my_entry.pack(pady=20)
+        # Entry widget to display and modify the shared variable
+        self.entry = ctk.CTkEntry(self, textvariable=self.shared_var)
+        self.entry.pack(pady=10)
 
-my_button = customtkinter.CTkButton(root, text="Submit", command=submit)
-my_button.pack(pady=10)
+        # Button to change the shared variable
+        self.update_button = ctk.CTkButton(self, text="Update in Frame B", command=self.update_var)
+        self.update_button.pack(pady=10)
 
-clear_button = customtkinter.CTkButton(root, text="Clear", command=clear)
-clear_button.pack(pady=10)
+    def update_entry(self, *args):
+        # This method will be called whenever the shared_var is updated
+        print("Frame B detected change:", self.shared_var.get())
 
+    def update_var(self):
+        # Update the shared variable
+        self.shared_var.set("Updated by Frame B")
 
+def main():
+    root = ctk.CTk()
+    root.title("Shared Variable Example")
+    root.geometry("400x300")
 
+    # Shared variable
+    shared_var = ctk.StringVar()
 
-root.mainloop()
+    # Create frames and pass the shared variable
+    frame_a = FrameA(root, shared_var)
+    frame_a.pack(side="left", expand=True, fill="both", padx=10, pady=10)
+
+    frame_b = FrameB(root, shared_var)
+    frame_b.pack(side="right", expand=True, fill="both", padx=10, pady=10)
+
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()
+

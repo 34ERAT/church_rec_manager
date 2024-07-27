@@ -45,10 +45,10 @@ class Death:
             return e
 
     def get_all(self):
-       return self.result.get("select * from DEATH d ;",None)
+       return self.result.get("select death_id, Names from DEATH d ;",None)
 
-    def get(self, Names):
-       return self.result.get("select * from DEATH  where  death_id= %s ;",(Names,))
+    def get_by_id(self, id):
+       return self.result.get("select death_id,Names,file_url from DEATH  where  death_id= %s ;",(id,))
 
     def delete(self,death_id):
        return self.result.submit("delete from DEATH  where  death_id= %s ;",(death_id,))

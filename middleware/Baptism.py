@@ -36,7 +36,7 @@ class BAPTISM:
         try:
             validate(instance=data, schema=self.__SCHEMA_BAPT)
             query = """update  BAPTISM set  
-            BAPTISM_NO = %(baptism_no)s 
+            BAPTISM_NO = %(baptism_no)s ,
             godchild =  %(godchild)s,
             MOTHER_NAMES = %(mother)s ,
             FATHER_NAMES = %(father)s 
@@ -44,13 +44,20 @@ class BAPTISM:
             """
             self.result.submit(query=query, params=data)
         except Exception as e:
+            print(e)
             return e
 
     def get_all(self,Limit=(0,10)):
-        return self.result.get("select BAPTISM_NO ,godchild,MOTHER_NAMES,FATHER_NAMES from BAPTISM limit %s ,%s",Limit )
+        return self.result.get(
+            "select BAPTISM_NO ,godchild,MOTHER_NAMES,FATHER_NAMES from BAPTISM limit %s ,%s",
+            Limit 
+        )
 
     def get_by_no(self, BPT_NO):
-        return self.result.get("select * from BAPTISM  WHERE BAPTISM_NO  = %s ", (BPT_NO,))
+        return self.result.get(
+            "select BAPTISM_NO ,godchild,MOTHER_NAMES,FATHER_NAMES , file_url from BAPTISM  WHERE BAPTISM_NO  = %s ", 
+            (BPT_NO,)
+        )
 
     def get(self, g_child, Parent):
         query = "select * from BAPTISM b  where godchild = %s and( b.MOTHER_NAMES = %s or b.FATHER_NAMES = %s );"

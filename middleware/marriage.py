@@ -37,10 +37,14 @@ class Marriage:
             validate(instance=data, schema=self.__MARRIAGE)
             self.result.submit(query=query, params=data)
         except Exception as e:
+            print(e)
             return e
 
     def get_all(self):
-        return self.result.get("select * from MARRIAGE_  ", None)
+        return self.result.get("select marriage_id,h_name,w_name from MARRIAGE_  ", None)
+
+    def get_by_id(self, marriage_id):
+        return self.result.get("select marriage_id,h_name,w_name,file_url  from MARRIAGE_  where marriage_id= %s ", (marriage_id,))
 
     def get(self, h_name, w_name):
         return self.result.get("select * from MARRIAGE_  where h_name= %s and w_name =%s ", (h_name, w_name))

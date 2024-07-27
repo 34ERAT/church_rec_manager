@@ -13,7 +13,7 @@ class Marriage_rec(ctk.CTkFrame):
         self.rowconfigure((0, 1, 2,3), weight=1)
 
         self.Label(0,"marriage id")
-        self.marriage_id = ctk.CTkEntry(self,placeholder_text="marriage id")
+        self.marriage_id = ctk.CTkEntry(self, placeholder_text="marriage id")
         self.marriage_id.grid(row=0, column=1, padx=(
             10,0 ), pady=(10, 0), sticky="ew")
         self.Label(1,"husband Names")
@@ -52,13 +52,22 @@ class Marriage_rec(ctk.CTkFrame):
        }
        return data
 
+    def set_entries(self,data):
+        self.marriage_id.insert(0,data["marriage_id"])
+        self.husband.insert(0,data["h_name"])
+        self.wife.insert(0,data["w_name"])
+        self.set_image(data["file_url"])
+
+
     def clear_entries(self):
-            self.marriage_id.configure(state="normal")
-            self.marriage_id.delete(0,END)
-            self.husband.configure(state="normal")
-            self.husband.delete(0,END)
-            self.wife.configure(state="normal")
-            self.wife.delete(0,END)
+        self.marriage_id.configure(state="normal")
+        self.marriage_id.delete(0,END)
+        self.husband.configure(state="normal")
+        self.husband.delete(0,END)
+        self.wife.configure(state="normal")
+        self.wife.delete(0,END)
+        self.set_image(None)
+
 
     def Label(self, row, text):
         label = ctk.CTkLabel(self, text=text)

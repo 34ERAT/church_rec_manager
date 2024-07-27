@@ -2,7 +2,6 @@ from tkinter import END
 import customtkinter as ctk
 from middleware.death import Death
 from ui.components.Btn_Notify import Btn_Notify
-from ui.components.Table import Table
 
 class DEATH_rec(ctk.CTkFrame):
     def __init__(self, master,command):
@@ -17,13 +16,19 @@ class DEATH_rec(ctk.CTkFrame):
         self.Names = ctk.CTkEntry(self,placeholder_text="first_name  last_name ")
         self.Names.grid(row=0, column=1, padx=(
             10,0 ), pady=(10, 0), sticky="ew")
-
-
+        self.image_path =None
         #choose file
         self.filepick= ctk.CTkButton(self,text="choose a file ...",command=self.selected_file)
         self.filepick.grid(row=1, column=2, padx=(
             10, 10), pady=(10, 0), sticky="ew")
 
+
+    def set_entries(self,data):
+        self.Names.insert(0,str(data["Names"]))
+        self.set_image( data["file_url"])
+
+    def set_image(self,path):
+        self.image_path = path
 
     def selected_file(self):
         self._FILE_PATH =ctk.filedialog.askopenfilename(title="Select a file", filetypes=[("image files", "*.jpg"), ("All files", "*.*")])
@@ -54,9 +59,15 @@ class Edit_Death(DEATH_rec):
         self.Edit = Btn_Notify(self, text="Edit",command=self.submit)
         self.Edit.grid(row=3, column=2, padx=(
             10,10), pady=(0, 0), sticky="ew")
-
+        self.death_id = None
+    def set_death_id(self,id):
+        self.death_id = id
     def submit(self):
         try:
+            if self.death_id is None:
+                return self.Edit.set_message(success=False,message="Error")
+            data = self.get_entries()
+            data['death_id']=self.death_id
             self.death = Death()
             self.death.update(self.get_entries())
             self.Edit.set_message(success=True,message="Edited")

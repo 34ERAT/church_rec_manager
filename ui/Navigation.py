@@ -23,7 +23,9 @@ class Naviagation(ctk.CTkFrame):
         self.mode_btn.grid(
             row=0, column=1, padx=10, pady=(10, 10), sticky="ew")
         self.mode_btn.set("Edit Record")
-
+    def update_Mode(self,Mode):
+       self.mode_btn.set(Mode)
+        
     def selected_option(self):
         return self.option_menu.get()
     def get_Mode(self):

@@ -2,9 +2,6 @@ from tkinter import END
 import customtkinter as ctk
 from middleware.Baptism import BAPTISM
 from ui.components.Btn_Notify import Btn_Notify
-# import tkinter as tk
-# from ui.components.NotificationLable import NotificationLabel
-
 
 class Baptism_rec(ctk.CTkFrame):
     def __init__(self, master,command):
@@ -15,11 +12,11 @@ class Baptism_rec(ctk.CTkFrame):
         self.rowconfigure((0, 1, 2,3), weight=1)
         # baptism
         self.Label(0,"baptims no")
-        self.entry_var = ctk.StringVar()
-        self.entry_var.trace_add("write",self.on_entry_change)
-        # self.entry_var.set("baptism_no e.g 001")
+        self.baptism_id_var = ctk.StringVar()
+        self.baptism_id_var.trace_add("write",self.on_entry_change)
 
-        self.baptism_no = ctk.CTkEntry(self,textvariable=self.entry_var, placeholder_text="baptism_no e.g 001")
+        self.baptism_no = ctk.CTkEntry(self, placeholder_text="baptism_no e.g 001")
+        # self.baptism_no.trace_add("write",self.on_entry_change)
         self.baptism_no.grid(row=0, column=1, padx=(
             10,0 ), pady=(10, 0), sticky="ew")
         #god_child
@@ -45,6 +42,13 @@ class Baptism_rec(ctk.CTkFrame):
         self.filepick.grid(row=1, column=2, padx=(
             10, 10), pady=(10, 0), sticky="ew")
 
+    def set_entries(self,data):
+        self.baptism_no.insert(0,str(data["baptism_no"]))
+        self.godchild.insert(0,data["godchild"])
+        self.mother_names.insert(0,data["mother"])
+        self.father_names.insert(0,data["father"])
+        self.set_image( data["file_url"])
+
 
     def selected_file(self):
         self._FILE_PATH =ctk.filedialog.askopenfilename(title="Select a file", filetypes=[("image files", "*.jpg"), ("All files", "*.*")])
@@ -55,7 +59,7 @@ class Baptism_rec(ctk.CTkFrame):
         self.image_path = path
 
     def on_entry_change(self,*args):
-        value = self.entry_var.get()
+        value = self.baptism_no.get()
         self.is_number(value)
 
     def is_number(self,value):
@@ -103,6 +107,7 @@ class Edit_Baptism(Baptism_rec):
         try:
             self.baptims = BAPTISM()
             self.baptims.update(self.get_entries())
+            print(self.get_entries())
             self.Edit.set_message(success=True,message="Edited")
         except:
             self.Edit.set_message(success=False,message="Error")
