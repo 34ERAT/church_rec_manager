@@ -21,7 +21,6 @@ class search(ctk.CTkFrame):
         death = Death()
         result = death.get(data["Names"])
         self.command(result)
-        print(data, result) 
         return self.name.get()
 
 class DeathTable(ctk.CTkFrame):
