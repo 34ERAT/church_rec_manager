@@ -63,7 +63,7 @@ class Marriage:
         return self.connect.get("select marriage_id,h_name,w_name,file_url  from MARRIAGE_  where marriage_id= %s ", (marriage_id,))
 
     def get(self, h_name, w_name):
-        return self.connect.get("select * from MARRIAGE_  where h_name= %s and w_name =%s ", (h_name, w_name))
+        return self.connect.get("select marriage_id,h_name,w_name  from MARRIAGE_  where h_name regexp  %s and w_name  regexp %s ", (h_name, w_name))
 
     def delete(self, marriage_id):
         return self.connect.submit("delete from MARRIAGE_  where marriage_id= %s ", (marriage_id,))
