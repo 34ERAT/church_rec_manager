@@ -1,9 +1,14 @@
 from jsonschema import validate
-from middleware.dbconnection import Connect
+from middleware.dbconnection import connect
+from middleware.storefile import StoreFile
+import os
+from dotenv import load_dotenv, dotenv_values
+load_dotenv()
 
 class BAPTISM:
     def __init__(self):
-        self.result = Connect()
+        self.connect =connect
+        self.root_path = str(os.getenv('BAPTISM_ARCHIVE'))
         self.__SCHEMA_BAPT = {
             "type": "object",
             "properties": {
@@ -28,45 +33,51 @@ class BAPTISM:
             %(file_url)s,
             now()
             )"""
-            self.result.submit(query=query, params=data)
+            src_file= data["file_url"]
+            final_dest =f"{self.root_path}/{data['baptism_no']}.jpg"
+            data['file_url']=final_dest
+            StoreFile(root_path=self.root_path,src=src_file,dest=final_dest)
+            connect.submit(query=query, params=data)
         except Exception as e:
-            return e
+            print(e)
+            raise e
 
     def update(self, data):  # edit baptism
         try:
             validate(instance=data, schema=self.__SCHEMA_BAPT)
             query = """update  BAPTISM set  
-            BAPTISM_NO = %(baptism_no)s ,
             godchild =  %(godchild)s,
             MOTHER_NAMES = %(mother)s ,
             FATHER_NAMES = %(father)s 
             where BAPTISM_NO = %(baptism_no)s 
             """
-            self.result.submit(query=query, params=data)
+            src_file= data["file_url"]
+            final_dest =f"{self.root_path}/{data['baptism_no']}.jpg"
+            data['file_url']=final_dest
+            StoreFile(root_path=self.root_path,src=src_file,dest=final_dest)
+            
+            self.connect.submit(query=query, params=data)
         except Exception as e:
-            print(e)
-            return e
+            raise e
 
-    def get_all(self,Limit=(0,10)):
-        return self.result.get(
+    def get_all(self,Limit=(0,20)):
+        return self.connect.get(
             "select BAPTISM_NO ,godchild,MOTHER_NAMES,FATHER_NAMES from BAPTISM limit %s ,%s",
             Limit 
         )
 
     def get_by_no(self, BPT_NO):
-        return self.result.get(
+        return self.connect.get(
             "select BAPTISM_NO ,godchild,MOTHER_NAMES,FATHER_NAMES , file_url from BAPTISM  WHERE BAPTISM_NO  = %s ", 
             (BPT_NO,)
         )
 
     def get(self, g_child, Parent):
-        query = "select * from BAPTISM b  where godchild = %s and( b.MOTHER_NAMES = %s or b.FATHER_NAMES = %s );"
+        query = "select BAPTISM_NO ,godchild,MOTHER_NAMES,FATHER_NAMES from BAPTISM b  where godchild regexp %s and( b.MOTHER_NAMES regexp %s or b.FATHER_NAMES regexp %s );"
         if Parent is not None:
-            # return result.get(query=query,params=None)
-            return self.result.get(query=query, params=(g_child, Parent, Parent))
-        #     return result.get("select * from BAPTISM  WHERE godchild= %s and MOTHER_NAMES= %s",(g_child,Parent))
+            return self.connect.get(query=query, params=(g_child, Parent, Parent))
 
     def delete(self, BPT_NO):
-        return self.result.submit("delete from BAPTISM  WHERE BAPTISM_NO  = %s ", (BPT_NO,))
+        return self.connect.submit("delete from BAPTISM  WHERE BAPTISM_NO  = %s ", (BPT_NO,))
 
 
