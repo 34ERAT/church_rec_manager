@@ -35,6 +35,7 @@ class MarriageTable(ctk.CTkFrame):
         self.record = Marriage()
         self.value = self.record.get_all()
         self.heading =["id","husband","wife"]
+
         self.table = Table(
             master=self,
             heading=self.heading,
