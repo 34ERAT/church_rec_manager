@@ -64,6 +64,9 @@ class Death:
     def get_by_id(self, id):
        return self.connect.get("select death_id,Names,file_url from DEATH  where  death_id= %s ;",(id,))
 
+    def get(self, Name):
+       return self.connect.get("select death_id,Names,file_url from DEATH  where  Names regexp %s ;",(Name,))
+
     def delete(self,death_id):
        return self.connect.submit("delete from DEATH  where  death_id= %s ;",(death_id,))
 
