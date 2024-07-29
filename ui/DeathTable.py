@@ -3,21 +3,33 @@ from CTkTable import *
 from middleware.death import Death
 from ui.components.Table import Table
 class search(ctk.CTkFrame):
-    def __init__(self,master):
+    def __init__(self,master,command):
+        self.command = command
         super().__init__(master)
-        self.grid_columnconfigure((0,1),weight=1)
-        self.god_child = ctk.CTkEntry(master=self,placeholder_text= "Names")
-        self.god_child.grid(row=0, column=0, padx=(10,10),pady=(10, 10),sticky="ew")
+        self.grid_columnconfigure((0,1),weight=2)
+        self.grid_columnconfigure((1),weight=0)
+        self.name = ctk.CTkEntry(master=self,placeholder_text= "Names")
+        self.name.grid(row=0, column=0, padx=(10,10),pady=(10, 10),sticky="ew")
+
+        self.Search= ctk.CTkButton(
+            master=self,text="search", command=self.get)
+        self.Search.grid(row=0, column=1, padx=(
+            10, 10), pady=(10, 10), sticky="ew")
 
     def get(self):
-        return self.god_child.get()
+        data = dict(Names=self.name.get())
+        death = Death()
+        result = death.get(data["Names"])
+        self.command(result)
+        print(data, result) 
+        return self.name.get()
 
 class DeathTable(ctk.CTkFrame):
     def __init__(self,master,width,height,command=None):
         super().__init__(master,width=width,height=height)
         self.Command = command
         self.grid_columnconfigure((0), weight=1)
-        self.search_input =  search(self)
+        self.search_input =  search(self,self.__ON_SEARCH)
         self.search_input.grid(row=0, column=0, padx=(10,10),pady=(10, 10),sticky="ew")
         self.record = Death()
         self.value = self.record.get_all()
@@ -32,6 +44,9 @@ class DeathTable(ctk.CTkFrame):
 
     def update_values(self):
         self.table.update_table(self.record.get_all())
+
+    def __ON_SEARCH(self,result):
+        self.table.update_table(result)
 
     def on_click(self,value):
         self.table.select_clicked_row(value["row"])
