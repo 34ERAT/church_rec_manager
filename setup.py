@@ -11,8 +11,8 @@ class CustomInstallCommand(install):
         print("\nConfiguring your application:")
         db_host = input("Enter DB_HOST [localhost]: ") or "localhost"
         db_port = input("Enter DB_PORT [3306]: ") or "3306"
-        db_user = input("Enter DB_USER [username]: ") or "root"
-        db_password = input("Enter DB_PASSWORD [password]: ") or "root"
+        db_user = input("Enter DB_USER [username]: ") or "username"
+        db_password = input("Enter DB_PASSWORD [password]: ") or "password"
         
         # Create config.env from template
         with open('./middleware/.env', 'r') as template_file:
@@ -22,7 +22,7 @@ class CustomInstallCommand(install):
             config_content = config_content.replace('username', db_user)
             config_content = config_content.replace('password', db_password)
             
-        with open('./middleware/.env', 'w') as config_file:
+        with open('middleware/.env', 'w') as config_file:
             config_file.write(config_content)
         
         print("\nConfiguration completed successfully!")
