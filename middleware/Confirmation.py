@@ -1,10 +1,10 @@
-from middleware.dbconnection import Connect
+from middleware.dbconnection import connect
 from jsonschema import validate
 
 
 class CONFIRMATION:
     def __init__(self):
-        self.result = Connect()
+        self.result = connect
         self.__SCHEMA_confirm = {
             "type": "object",
             "properties": {

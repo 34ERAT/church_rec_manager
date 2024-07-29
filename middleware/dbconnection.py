@@ -17,16 +17,16 @@ class Connect:
    def get(self, query, params):
        CURSOR = self.__CONNECTION.cursor(prepared=True)
        CURSOR.execute(query, params)
-       # print(CURSOR.description)
        data = CURSOR.fetchall()
        CURSOR.close()
        return data
 
    def submit(self, query, params):
-      CURSOR = self.__CONNECTION.cursor(prepared=True)
-      CURSOR.execute(query, params)
-      self.__CONNECTION.commit()
-      result = CURSOR.fetchall()
-      CURSOR.close()
-      return result
+       CURSOR = self.__CONNECTION.cursor(prepared=True)
+       CURSOR.execute(query, params)
+       self.__CONNECTION.commit()
+       result = CURSOR.fetchall()
+       CURSOR.close()
+       return result
 
+connect = Connect()

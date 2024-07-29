@@ -19,8 +19,12 @@ class Left_Frame(ctk.CTkFrame):
         #Default selection
         self.recordlist = BaptismTable(self,width=700,height=590,command=self.selected_data)
         self.recordlist.grid(row=1, column=0, padx=10, pady=(10,10), sticky="nsew",columnspan=2)
+
     def selected_data(self,data):
         self.Get_values(data) 
+    def update_Table(self):
+        self.recordlist.update_values()
+
     def mode(self,value):
         choice= self.navigate.selected_option()
         if choice == "BAPTISIM":

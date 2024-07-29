@@ -10,16 +10,18 @@ class Btn_Notify(ctk.CTkFrame):
         self.btn.grid(row=0, column=0, padx=(
             0,10), pady=(10, 0), sticky="nsew")
 
-        self.NotificationLabel= ctk.CTkLabel(self,text="")
+        self.NotificationLabel= ctk.CTkLabel(self,text="",font=("",12,"bold"))
         self.NotificationLabel.grid(row=0, column=1, padx=(
             0,10), pady=(10, 0), sticky="nsew")
+        # self.NotificationLabel.configure()
+        self.message =["ADDED :-]","EDITED :-]","ERROR :-O","Deleted :-["]
 
     def __CLRMSG(self):
         self.NotificationLabel.configure(fg_color="transparent",text="")
-    def set_message(self,success,message):
-        if success:
-            self.NotificationLabel.configure(fg_color="#0b8a20",text=message, text_color="white")
+    def set_message(self,success,msg_id=None):
+        if success and msg_id is not None:
+            self.NotificationLabel.configure(fg_color="#0b8a20",text=self.message[msg_id], text_color="white")
         else:
-            self.NotificationLabel.configure(fg_color="#cf4c3c",text=message, text_color="white")
-        self.after(500, self.__CLRMSG)
+            self.NotificationLabel.configure(fg_color="#cf4c3c",text=self.message[2], text_color="white")
+        self.after(900, self.__CLRMSG)
 

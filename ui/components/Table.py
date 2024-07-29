@@ -8,7 +8,6 @@ class Table(CTkTable):
             header_color="#692c91",
             hover_color="#2b334f",
             command=command
-
         )
 
     def select_clicked_row(self,row):
@@ -22,3 +21,11 @@ class Table(CTkTable):
             for  i,row in enumerate(Rows):
                 self.add_row(index=i+1,values=row)
 
+    def clean_table(self):
+        for i in range(len(self.get())):
+            if i != 0 :
+                self.delete_row(i)
+
+    def update_table(self,new_value):
+        self.clean_table()
+        self.Add_rows(new_value)

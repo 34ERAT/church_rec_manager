@@ -1,10 +1,15 @@
 from jsonschema import validate
-from middleware.dbconnection import Connect
-# from dbconnection import result
+from middleware.dbconnection import connect
+import os
+from dotenv import load_dotenv, dotenv_values
+
+from middleware.storefile import StoreFile
+load_dotenv()
 
 class Death:
     def __init__(self):
-        self.result = Connect()
+        self.connect = connect
+        self.root_path = str(os.getenv('DEATH_ARCHIVE'))
         self._DEATH = {
             "type": "object",
             "properties": {
@@ -24,32 +29,41 @@ class Death:
             now(),
             %(file_url)s
             )"""
-            self.result.submit(query=query,params=data)
+            src_file= data["file_url"]
+            final_dest =f"{self.root_path}/{data['Names']}.jpg"
+            data['file_url']=final_dest
+            StoreFile(root_path=self.root_path,src=src_file,dest=final_dest)
+            self.connect.submit(query=query,params=data)
         except Exception as e:
-            return e
+            print(e)
+            raise e
 
     def update(self,data):
         try:
             update_d = self._DEATH
             update_d['properties']['death_id'] ={"type": "string"}
             update_d['required'].append("death_id")
-            validate(instance=data,schema=update_d)
             query="""update DEATH  set 
             Names= %(Names)s,
             file_url=%(file_url)s 
             where death_id=%(death_id)s
             """
-            self.result.submit(query=query,params=data)
+            src_file= data["file_url"]
+            final_dest =f"{self.root_path}/{data['Names']}.jpg"
+            data['file_url']=final_dest
+            StoreFile(root_path=self.root_path,src=src_file,dest=final_dest)
+
+            self.connect.submit(query=query,params=data)
         except Exception as e:
             print(e)
-            return e
+            raise e
 
-    def get_all(self):
-       return self.result.get("select death_id, Names from DEATH d ;",None)
+    def get_all(self, Limit=(0,20)):
+       return self.connect.get("select death_id, Names from DEATH d limit %s,%s;",Limit)
 
     def get_by_id(self, id):
-       return self.result.get("select death_id,Names,file_url from DEATH  where  death_id= %s ;",(id,))
+       return self.connect.get("select death_id,Names,file_url from DEATH  where  death_id= %s ;",(id,))
 
     def delete(self,death_id):
-       return self.result.submit("delete from DEATH  where  death_id= %s ;",(death_id,))
+       return self.connect.submit("delete from DEATH  where  death_id= %s ;",(death_id,))
 

@@ -24,18 +24,21 @@ class MarriageTable(ctk.CTkFrame):
         self.search_input.grid(row=0, column=0, padx=(10,10),pady=(10, 10),sticky="ew")
         self.record = Marriage()
         self.value = self.record.get_all()
+        self.heading =["id","husband","wife"]
         self.table = Table(
             master=self,
-            heading=["id","husband","wife"],
+            heading=self.heading,
             columns=3,
             command=self.on_click)
         self.table.grid(row=1, column=0, padx=(10,10), pady=(10,10), sticky="ew")
         self.table.Add_rows(self.value)
 
+    def update_values(self):
+        self.table.update_table(self.record.get_all())
+
     def on_click(self,value):
         self.table.select_clicked_row(value["row"])
         rec_id = self.value[value["row"]-1][0]
-        print(rec_id)
         marriage_rec = list(self.record.get_by_id(rec_id)[0])
         data= {
              "marriage_id":marriage_rec[0],

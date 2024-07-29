@@ -1,10 +1,14 @@
 from jsonschema import validate
-from middleware.dbconnection import Connect
-
+from middleware.dbconnection import connect
+from middleware.storefile import StoreFile
+import os
+from dotenv import load_dotenv, dotenv_values
+load_dotenv()
 
 class Marriage:
     def __init__(self):
-        self.result = Connect()
+        self.connect = connect
+        self.root_path = str(os.getenv('MARRIAGE_ARCHIVE'))
         self.__MARRIAGE = {
             "type": "object",
             "properties": {
@@ -21,10 +25,16 @@ class Marriage:
             query = """insert into MARRIAGE_  (marriage_id,h_name,w_name,upload_date,file_url)
             values( %(marriage_id)s,%(h_name)s, %(w_name)s,now(), %(file_url)s);"""
             validate(instance=data, schema=self.__MARRIAGE)
-            self.result.submit(query=query, params=data)
+
+            src_file= data["file_url"]
+            final_dest =f"{self.root_path}/{data['marriage_id']}.jpg"
+            data['file_url']=final_dest
+            StoreFile(root_path=self.root_path,src=src_file,dest=final_dest)
+            self.connect.submit(query=query, params=data)
+
         except Exception as e:
             print(e)
-            return e
+            raise e
 
     def update(self, data):
         try:
@@ -35,21 +45,27 @@ class Marriage:
             file_url = %(file_url)s
             where marriage_id = %(marriage_id)s"""
             validate(instance=data, schema=self.__MARRIAGE)
-            self.result.submit(query=query, params=data)
+
+            src_file= data["file_url"]
+            final_dest =f"{self.root_path}/{data['marriage_id']}.jpg"
+            data['file_url']=final_dest
+            StoreFile(root_path=self.root_path,src=src_file,dest=final_dest)
+
+            self.connect.submit(query=query, params=data)
         except Exception as e:
             print(e)
-            return e
+            raise e
 
-    def get_all(self):
-        return self.result.get("select marriage_id,h_name,w_name from MARRIAGE_  ", None)
+    def get_all(self,Limit=(0,20)):
+        return self.connect.get("select marriage_id,h_name,w_name from MARRIAGE_ limit %s,%s ", Limit)
 
     def get_by_id(self, marriage_id):
-        return self.result.get("select marriage_id,h_name,w_name,file_url  from MARRIAGE_  where marriage_id= %s ", (marriage_id,))
+        return self.connect.get("select marriage_id,h_name,w_name,file_url  from MARRIAGE_  where marriage_id= %s ", (marriage_id,))
 
     def get(self, h_name, w_name):
-        return self.result.get("select * from MARRIAGE_  where h_name= %s and w_name =%s ", (h_name, w_name))
+        return self.connect.get("select * from MARRIAGE_  where h_name= %s and w_name =%s ", (h_name, w_name))
 
     def delete(self, marriage_id):
-        return self.result.submit("delete from MARRIAGE_  where marriage_id= %s ", (marriage_id))
+        return self.connect.submit("delete from MARRIAGE_  where marriage_id= %s ", (marriage_id,))
 
 
