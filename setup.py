@@ -15,7 +15,7 @@ class CustomInstallCommand(install):
         db_password = input("Enter DB_PASSWORD [password]: ") or "password"
         
         # Create config.env from template
-        with open('./middleware/.env', 'r') as template_file:
+        with open('.env', 'r') as template_file:
             config_content = template_file.read()
             config_content = config_content.replace('localhost', db_host)
             config_content = config_content.replace('3306', db_port)
@@ -72,6 +72,11 @@ setup(
         "termcolor==2.4.0",
         "tk==0.1.0",
     ],
+    entry_points={
+        'console_scripts': [
+            'my_project=church_rec_manager.church_rec_manager:church_rec_manager',
+        ],
+    },
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
