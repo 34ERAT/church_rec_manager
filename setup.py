@@ -19,7 +19,7 @@ class CustomInstallCommand(install):
             config_content = template_file.read()
             config_content = config_content.replace('localhost', db_host)
             config_content = config_content.replace('3306', db_port)
-            config_content = config_content.replace('root', db_user)
+            config_content = config_content.replace('username', db_user)
             config_content = config_content.replace('password', db_password)
             
         with open('./middleware/.env', 'w') as config_file:
@@ -78,5 +78,8 @@ setup(
         'Operating System :: OS Independent',
     ],
     python_requires='>=3.6',
+    cmdclass={
+        'install': CustomInstallCommand,
+    }
 )
 

@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 import os
-from os import system
+import sys
 from dotenv import load_dotenv, dotenv_values
 
 from middleware.database_schema.Tables import TABLE_QUERIES
@@ -13,7 +13,6 @@ class Connect:
    def __init__(self):
        try:
            self.__CONNECTION = self.__NEW_CONNECTION()
-
        except mysql.connector.Error as error:
            if error.errno == errorcode.ER_BAD_DB_ERROR:
                print("Database does not exist. Attempting to create it...")
@@ -32,6 +31,12 @@ class Connect:
                     cnx.commit()
                cursor.close()
                self.__CONNECTION = self.__NEW_CONNECTION()
+
+           if error.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+                sys.exit(1)
+           else:
+                print(error)
 
    def __NEW_CONNECTION(self):
        return mysql.connector.connect(
