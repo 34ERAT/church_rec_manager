@@ -22,7 +22,7 @@ class CustomInstallCommand(install):
             config_content = config_content.replace('username', db_user)
             config_content = config_content.replace('password', db_password)
             
-        with open('middleware/.env', 'w') as config_file:
+        with open('.env', 'w') as config_file:
             config_file.write(config_content)
         
         print("\nConfiguration completed successfully!")
