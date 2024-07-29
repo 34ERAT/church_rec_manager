@@ -1,3 +1,5 @@
-./middleware/__pycache__
-./ui/__pycache__
+__pycache__
+.Archives
+.env
+.venv
 
