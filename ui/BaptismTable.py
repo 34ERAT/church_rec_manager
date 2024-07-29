@@ -27,7 +27,6 @@ class search(ctk.CTkFrame):
         bapt = BAPTISM()
         result = bapt.get(data["god_child"],data['parent'])
         self.command(result)
-        print(data, result) 
 
 
 class BaptismTable(ctk.CTkFrame):
