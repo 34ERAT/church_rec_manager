@@ -38,6 +38,7 @@ class Preview(ctk.CTkFrame):
             self.editor_Frame.grid_propagate(False)
             self.editor_Frame.grid(row=1,column=0 , pady=(10,0), sticky="nsew")
             if self.data_to_edit is not None:
+                # print(self.data_to_edit)
                 self.editor_Frame.set_entries(self.data_to_edit)
                 self.data_to_edit = None
 
@@ -47,6 +48,7 @@ class Preview(ctk.CTkFrame):
             self.editor_Frame.grid_propagate(False)
             self.editor_Frame.grid(row=1,column=0 , pady=(10,0), sticky="nsew")
             if self.data_to_edit is not None:
+                # print(self.data_to_edit)
                 self.editor_Frame.set_entries(self.data_to_edit)
                 self.data_to_edit = None
 
@@ -57,6 +59,7 @@ class Preview(ctk.CTkFrame):
             self.editor_Frame.grid_propagate(False)
             self.editor_Frame.grid(row=1,column=0 , pady=(10,0), sticky="nsew")
             if self.data_to_edit is not None:
+                # print(self.data_to_edit)
                 self.editor_Frame.set_entries(self.data_to_edit)
                 self.editor_Frame.set_death_id(self.data_to_edit['death_id'])
                 self.data_to_edit = None
