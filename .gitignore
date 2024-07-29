@@ -2,4 +2,6 @@ __pycache__
 .Archives
 .env
 .venv
-
+build
+church_rec_manager.egg-info
+dist
