@@ -13,15 +13,18 @@ class CustomInstallCommand(install):
         db_port = input("Enter DB_PORT [3306]: ") or "3306"
         db_user = input("Enter DB_USER [username]: ") or "username"
         db_password = input("Enter DB_PASSWORD [password]: ") or "password"
+
+        config_content = f"""
+            DB_HOST={db_host}
+            DB="Church_db_2"
+            PORT={db_port}
+            DB_PASSWORD={db_password}
+            DB_USER={db_user}
+            BAPTISM_ARCHIVE="./.Archives/Baptism"
+            MARRIAGE_ARCHIVE="./.Archives/Marriage"
+            DEATH_ARCHIVE="./.Archives/Death"       
+            """
         
-        # Create config.env from template
-        with open('.env', 'r') as template_file:
-            config_content = template_file.read()
-            config_content = config_content.replace('localhost', db_host)
-            config_content = config_content.replace('3306', db_port)
-            config_content = config_content.replace('username', db_user)
-            config_content = config_content.replace('password', db_password)
-            
         with open('.env', 'w') as config_file:
             config_file.write(config_content)
         
@@ -74,7 +77,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'my_project=church_rec_manager.church_rec_manager:church_rec_manager',
+            'church_rec_manager=church_rec_manager.church_rec_manager:main',
         ],
     },
     classifiers=[
