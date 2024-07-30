@@ -49,7 +49,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'church_rec_manager=ui.APP:maim',
+            'church_rec_manager=church_rec:Main',
 
         ],
     },
