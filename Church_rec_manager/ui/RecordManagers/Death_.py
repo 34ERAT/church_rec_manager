@@ -1,7 +1,7 @@
 from tkinter import END
 import customtkinter as ctk
-from middleware.death import Death
-from ui.components.Btn_Notify import Btn_Notify
+from Church_rec_manager.middleware.death import Death
+from Church_rec_manager.ui.components.Btn_Notify import Btn_Notify
 from CTkMessagebox import CTkMessagebox
 
 class DEATH_rec(ctk.CTkFrame):

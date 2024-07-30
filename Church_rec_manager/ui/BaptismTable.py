@@ -1,7 +1,6 @@
 import customtkinter as ctk
-from middleware.Baptism import BAPTISM
-from ui.components.Table import Table
-
+from Church_rec_manager.middleware.Baptism import BAPTISM
+from Church_rec_manager.ui.components.Table import Table
 class search(ctk.CTkFrame):
     def __init__(self, master ,command):
         super().__init__(master)

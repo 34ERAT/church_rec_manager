@@ -1,9 +1,9 @@
 from jsonschema import validate
-from middleware.dbconnection import connect
+from Church_rec_manager.middleware.dbconnection import connect
 import os
 from dotenv import load_dotenv, dotenv_values
 
-from middleware.storefile import StoreFile
+from Church_rec_manager.middleware.storefile import StoreFile
 load_dotenv()
 
 class Death:

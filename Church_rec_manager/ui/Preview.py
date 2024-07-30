@@ -1,9 +1,9 @@
 import customtkinter as ctk 
 from PIL import Image
 
-from ui.RecordManagers.Baptism_ import Add_Baptism, Edit_Baptism
-from ui.RecordManagers.Death_ import Add_Death, Edit_Death
-from ui.RecordManagers.Marriage_ import Add_Marriage, Edit_Marriage
+from Church_rec_manager.ui.RecordManagers.Baptism_ import Add_Baptism, Edit_Baptism
+from Church_rec_manager.ui.RecordManagers.Death_ import Add_Death, Edit_Death
+from Church_rec_manager.ui.RecordManagers.Marriage_ import Add_Marriage, Edit_Marriage
 class Preview(ctk.CTkFrame):
     def __init__(self,master,width,default_editor,command):
         super().__init__(master,width=width,)

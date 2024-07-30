@@ -1,7 +1,7 @@
 from tkinter import END
 import customtkinter as ctk
-from middleware.Baptism import BAPTISM
-from ui.components.Btn_Notify import Btn_Notify
+from Church_rec_manager.middleware.Baptism import BAPTISM
+from Church_rec_manager.ui.components.Btn_Notify import Btn_Notify
 from CTkMessagebox import CTkMessagebox
 
 class Baptism_rec(ctk.CTkFrame):

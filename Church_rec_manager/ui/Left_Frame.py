@@ -1,8 +1,8 @@
 import customtkinter as ctk
-from ui.BaptismTable import BaptismTable
-from ui.DeathTable import DeathTable
-from ui.MarriageTable import MarriageTable
-from ui.Navigation import Naviagation
+from Church_rec_manager.ui.BaptismTable import BaptismTable
+from Church_rec_manager.ui.DeathTable import DeathTable
+from Church_rec_manager.ui.MarriageTable import MarriageTable
+from Church_rec_manager.ui.Navigation import Naviagation
 
 class Left_Frame(ctk.CTkFrame):
     def __init__(self,master,command,syc_preview_window):

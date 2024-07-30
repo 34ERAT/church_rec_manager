@@ -1,6 +1,6 @@
 import customtkinter as ctk
-from ui.Left_Frame import Left_Frame
-from ui.Preview import Preview
+from Church_rec_manager.ui.Left_Frame import Left_Frame
+from Church_rec_manager.ui.Preview import Preview
 ctk.set_appearance_mode("Dark") 
 ctk.set_default_color_theme("blue")
 

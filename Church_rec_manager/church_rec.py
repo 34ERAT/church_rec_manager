@@ -1,5 +1,7 @@
-from ui.App import App
+# from ui.App import App
 import os
+
+from Church_rec_manager.ui.App import App
 
 
 def config_setup():

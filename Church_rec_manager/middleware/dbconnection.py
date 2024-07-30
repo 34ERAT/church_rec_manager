@@ -4,7 +4,7 @@ import os
 import sys
 from dotenv import load_dotenv, dotenv_values
 
-from middleware.database_schema.Tables import TABLE_QUERIES
+from Church_rec_manager.middleware.database_schema.Tables import TABLE_QUERIES
 load_dotenv()
 
 

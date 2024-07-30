@@ -1,4 +1,4 @@
-from middleware.dbconnection import connect
+from Church_rec_manager.middleware.dbconnection import connect
 from jsonschema import validate
 
 
