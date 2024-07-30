@@ -2,7 +2,7 @@ from ui.App import App
 import os
 
 
-def setup():
+def config_setup():
     if not os.path.exists('.env'):
         print("\nConfiguring your application:")
         db_host = input("Enter DB_HOST [localhost]: ") or "localhost"
@@ -29,11 +29,11 @@ def setup():
         print("\n.env file already exists. Skipping configuration.")
 
 
-def main():
-    setup()
+def Main():
+    config_setup()
     app = App()
     app.mainloop()
 
 
 if __name__ == '__main__':
-    main()
+    Main()
