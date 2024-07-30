@@ -1,9 +1,6 @@
 # from ui.App import App
 import os
 
-from Church_rec_manager.ui.App import App
-
-
 def config_setup():
     if not os.path.exists('.env'):
         print("\nConfiguring your application:")
@@ -33,6 +30,7 @@ def config_setup():
 
 def Main():
     config_setup()
+    from Church_rec_manager.ui.App import App
     app = App()
     app.mainloop()
 
