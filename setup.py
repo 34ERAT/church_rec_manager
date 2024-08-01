@@ -4,7 +4,7 @@ from setuptools.command.install import install
 
 setup(
     name='church_rec_manager',
-    version='0.2.1',
+    version='0.3.0',
     description='python application to manage your records of the church',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
