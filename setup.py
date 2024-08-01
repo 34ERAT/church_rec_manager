@@ -10,7 +10,7 @@ setup(
     long_description_content_type='text/markdown',
     author='philip kanuti',
     author_email='kanutiphilip24@gmail.com',
-    url='https://github.com/34ERAT/church_rec_management_system',
+    url='https://github.com/34ERAT/church_rec_manager.git',
     packages=find_packages(),
     install_requires=[
         "attrs==23.2.0",
