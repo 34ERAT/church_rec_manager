@@ -11,7 +11,7 @@ def config_setup():
 
         config_content = f"""
                 DB_HOST={db_host}
-                DB="Church_db_2"
+                DB="Church_db"
                 PORT={db_port}
                 DB_PASSWORD={db_password}
                 DB_USER={db_user}
